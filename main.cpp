@@ -25,14 +25,8 @@ int main()
     while (1)
     {
         fd_in = open(fifo_in, O_RDONLY);
-        if (fd_in == -1) {
-            cerr << "open error" << endl;
-            exit(EXIT_FAILURE);
-        }
         int size = read(fd_in, buf, PIPE_BUF);
         close(fd_in);        
-
-        cout << "buf: " << buf << endl;
 
         fd_out = open(fifo_out, O_WRONLY);
         write(fd_out, buf, size);
