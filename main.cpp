@@ -17,22 +17,22 @@ int main()
     char *fifo_in = "/home/box/in.fifo";
     char *fifo_out = "/home/box/out.fifo";
 
-    int res = mkfifo(fifo_in, 0666);
-    if (res == -1)
-        exit(EXIT_FAILURE);
+    mkfifo(fifo_in, 0666);
+    mkfifo(fifo_out, 0666);
 
-    res = mkfifo(fifo_out, 0666);
-    if (res == -1)
-        exit(EXIT_FAILURE);
+    char buf[PIPE_BUF];
 
     while (1)
     {
-        char buf[PIPE_BUF];
-        memset(buf, 0, PIPE_BUF);
-
         fd_in = open(fifo_in, O_RDONLY);
+        if (fd_in == -1) {
+            cerr << "open error" << endl;
+            exit(EXIT_FAILURE);
+        }
         read(fd_in, buf, PIPE_BUF);
-        close(fd_in);
+        close(fd_in);        
+
+        cout << "buf: " << buf << endl;
 
         fd_out = open(fifo_out, O_WRONLY);
         write(fd_out, buf, strlen(buf) + 1);
