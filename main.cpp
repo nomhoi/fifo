@@ -29,13 +29,13 @@ int main()
             cerr << "open error" << endl;
             exit(EXIT_FAILURE);
         }
-        read(fd_in, buf, PIPE_BUF);
+        int size = read(fd_in, buf, PIPE_BUF);
         close(fd_in);        
 
         cout << "buf: " << buf << endl;
 
         fd_out = open(fifo_out, O_WRONLY);
-        write(fd_out, buf, strlen(buf) + 1);
+        write(fd_out, buf, size);
         close(fd_out);
     }
     return 0;
