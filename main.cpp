@@ -35,7 +35,7 @@ int main()
         close(fd_in);
 
         fd_out = open(fifo_out, O_WRONLY);
-        write(fd_out, buf, PIPE_BUF);
+        write(fd_out, buf, strlen(buf) + 1);
         close(fd_out);
     }
     return 0;
